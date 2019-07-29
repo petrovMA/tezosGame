@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save Your Tezos property</title>
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <script src="static/scripts/jquery.min.js"></script>
+  <script src="static/scripts/popper.min.js"></script>
+  <script src="static/scripts/bootstrap.min.js"></script>
+
+  <script src="static/scripts/jquery-3.1.1.slim.min.js"></script>
+  <script src="static/scripts/eztz.min.js"></script>
+  <script src="static/scripts/tezos.js"></script>
+</head>
+<body class="container">
+<div id="alerts"></div>
+<div>Your account <strong><span id="account"></span></strong> has balance: <strong><span id="balance"></span></strong> ꜩ
+</div>
+<br>
+<div>Contract balance: <strong><span id="contract-balance-info"></span></strong> ꜩ</div>
+<br>
+<div>Elite wallet: <strong><span id="contract-elite-wallet-info"></span></strong></div>
+<div>Elite deposit: <strong><span id="contract-elite-balance-info"></span></strong> ꜩ</div>
+<br>
+<div>Admin: <strong><span id="contract-admin-info"></span></strong></div>
+<br>
+<div id="contract-judges-info">Judges:</div>
+<div class="container" id="blockchain">
+  <br>
+  <p>Contract address: <b id='contract'>KT1NYFpHDJ4oRT6PmCYn78XGSSCdKir8Qweg</b></p>
+
+  <div style="padding-top: 1.5rem">
+    <h4>Unlock by:</h4>
+    <div class="dropdown">
+      <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"
+              id="dropdown-unlock">
+        Mnemonic phrase
+      </button>
+      <div class="dropdown-menu" id="dropdown-menu-id">
+        <a class="dropdown-item" href="#">Mnemonic phrase</a>
+        <a class="dropdown-item" href="#">Private key</a>
+      </div>
+    </div>
+
+    <div id="mnem">
+      <div class="form-group" style="display:flex; padding-top: .5rem">
+        <label class="input-group-btn" for="phrase">Mnemonic phrase:</label>
+        <input type="text" class="form-control" id="phrase">
+      </div>
+      <div class="form-group" style="display:flex">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password">
+      </div>
+      <div>
+        <label for="password-id"><span>Show Password</span></label>
+        <input type="checkbox" onclick="hide('password')" id="password-id">
+      </div>
+    </div>
+
+    <div id="keys">
+      <div class="form-group" style="display:flex; padding-top: .5rem">
+        <label for="key">Key:</label>
+        <input type="password" class="form-control" id="key">
+      </div>
+      <div>
+        <label for="key-id"><span>Show Key</span></label>
+        <input type="checkbox" onclick="hide('key')" id="key-id">
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <div class="dropdown">
+    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" id="dropdown-method">
+      Show balance
+    </button>
+    <div class="dropdown-menu" id="dropdown-menu-method-id">
+      <a class="dropdown-item" href="#">Show balance</a>
+      <a class="dropdown-item" href="#">Play game</a>
+      <a class="dropdown-item" href="#">Receive project fees</a>
+      <a class="dropdown-item" href="#">Receive Elite fees</a>
+    </div>
+  </div>
+  <br>
+  <div id="form-balance">
+    <button onclick="balanceBtn()" class="btn btn-success">Your Balance</button>
+  </div>
+
+  <div class="form-group" id="form-play">
+    <label for="player-deposit">Deposit (0.1ꜩ 0.5ꜩ 1ꜩ 2ꜩ):</label>
+    <input type="number" class="form-control" id="player-deposit">
+    <label for="project-name">Project name:</label>
+    <input type="text" class="form-control" id="project-name">
+    <label for="player-address">Player address(reward receiver):</label>
+    <input type="text" class="form-control" id="player-address">
+    <div style="padding: 1rem">
+      <a href="#" onclick="playBtn()" class="btn btn-primary">Play</a>
+    </div>
+  </div>
+
+  <div id="withdraw-project">
+    <button onclick="withdrawProjectBtn()" class="btn btn-primary">Ping</button>
+  </div>
+
+  <div id="withdraw-elite">
+    <button onclick="withdrawEliteBtn()" class="btn btn-primary">Receive</button>
+  </div>
+  <br>
+  <div>
+    <br>
+    <div><h3>Games:</h3>
+      <div id="contract-games-info"></div>
+    </div>
+    <br>
+    <div><h3>Projects:</h3>
+      <div id="contract-projects-info"></div>
+    </div>
+  </div>
+
+</div>
+<script>
+
+    function balanceBtn() {
+        balance(getKeys())
+    }
+
+    function playBtn() {
+        play(
+            getKeys(),
+            document.getElementById('contract').innerHTML,
+            document.getElementById('player-deposit').value,
+            document.getElementById('project-name').value,
+            document.getElementById('player-address').value
+        )
+    }
+
+    function withdrawProjectBtn() {
+        withdrawProject(
+            getKeys(),
+            document.getElementById('contract').innerHTML,
+            document.getElementById('dest').value,
+            document.getElementById('amount').value
+        )
+    }
+
+    function withdrawEliteBtn() {
+        withdrawElite(
+            getKeys(),
+            document.getElementById('contract').innerHTML,
+            document.getElementById('dest').value,
+            document.getElementById('amount').value
+        )
+    }
+
+    watchContract(document.getElementById('contract').textContent);
+    document.getElementById('keys').style.display = 'none';
+    document.getElementById('mnem').style.display = 'block';
+
+    $('#dropdown-menu-id').on('click', 'a', function () {
+        let text = $(this).html();
+        let htmlText = text + ' <span class="caret"></span>';
+        if (htmlText.startsWith('Mnemonic phrase')) {
+            document.getElementById('keys').style.display = 'none';
+            document.getElementById('mnem').style.display = 'block'
+        } else {
+            document.getElementById('keys').style.display = 'block';
+            document.getElementById('mnem').style.display = 'none'
+        }
+        $(this).closest('.dropdown').find('.dropdown-toggle').html(htmlText)
+    });
+
+    document.getElementById('form-balance').style.display = 'block';
+    document.getElementById('form-play').style.display = 'none';
+    document.getElementById('withdraw-project').style.display = 'none';
+    document.getElementById('withdraw-elite').style.display = 'none';
+
+    $('#dropdown-menu-method-id').on('click', 'a', function () {
+        let text = $(this).html();
+        let htmlText = text + ' <span class="caret"></span>';
+
+        document.getElementById('form-balance').style.display = 'none';
+        document.getElementById('form-play').style.display = 'none';
+        document.getElementById('withdraw-project').style.display = 'none';
+        document.getElementById('withdraw-elite').style.display = 'none';
+
+        if (htmlText.startsWith('Play game')) {
+            document.getElementById('form-play').style.display = 'block'
+        } else if (htmlText.startsWith('Receive property')) {
+            document.getElementById('withdraw-project').style.display = 'block'
+        } else if (htmlText.startsWith('Receive property')) {
+            document.getElementById('withdraw-elite').style.display = 'block'
+        } else {
+            document.getElementById('form-balance').style.display = 'block'
+        }
+        $(this).closest('.dropdown').find('.dropdown-toggle').html(htmlText)
+    });
+
+    function getKeys() {
+        if (document.getElementById('keys').style.display === 'block') {
+            return getKeysByKey(document.getElementById('key').value)
+        } else {
+            return getKeysByPhrase(document.getElementById('phrase').value, document.getElementById('password').value)
+        }
+    }
+
+    function hide(psswdId) {
+        let box = document.getElementById(psswdId);
+        if (document.getElementById(psswdId + '-id').checked === true) {
+            box.type = 'text'
+        } else {
+            box.type = 'password'
+        }
+    }
+
+</script>
+</body>
+</html>

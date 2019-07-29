@@ -1,0 +1,116 @@
+{
+  "prim": "Pair",
+  "args": [
+    [
+      {
+        "prim": "Elt",
+        "args": [
+          {
+            "string": "tz1QLLbmqmrnfy7pBSzLCsY4RGSoB7t7Y72q"
+          },
+          {
+            "prim": "Pair",
+            "args": [
+              {
+                "string": ""
+              },
+              {
+                "prim": "Pair",
+                "args": [
+                  {
+                    "int": "4"
+                  },
+                  [
+                    {
+                      "prim": "Elt",
+                      "args": [
+                        {
+                          "string": "tz1ah5UULnLbQJ24J4zDSmYVahFjYHKWqX9V"
+                        },
+                        {
+                          "int": "1"
+                        }
+                      ]
+                    },
+                    {
+                      "prim": "Elt",
+                      "args": [
+                        {
+                          "string": "tz1eR5R6hQmhpFFLr8rQiUGSCgac63mU9dFU"
+                        },
+                        {
+                          "int": "-1"
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    {
+      "prim": "Pair",
+      "args": [
+        {
+          "string": "tz1LiQeRszWuc8ZvGTXkyhnbp8bzhEWj4tvP"
+        },
+        {
+          "prim": "Pair",
+          "args": [
+            {
+              "int": "0"
+            },
+            {
+              "prim": "Pair",
+              "args": [
+                [
+                  {
+                    "string": "tz1QEJ24BFEY1jhwfeRqnPN899c4dvJS1PEp"
+                  },
+                  {
+                    "string": "tz1ah5UULnLbQJ24J4zDSmYVahFjYHKWqX9V"
+                  },
+                  {
+                    "string": "tz1eR5R6hQmhpFFLr8rQiUGSCgac63mU9dFU"
+                  }
+                ],
+                {
+                  "prim": "Pair",
+                  "args": [
+                    [
+                      {
+                        "prim": "Elt",
+                        "args": [
+                          {
+                            "string": ""
+                          },
+                          {
+                            "prim": "Pair",
+                            "args": [
+                              {
+                                "int": "0"
+                              },
+                              {
+                                "string": "tz1YWtADpgGehcTFqxMapiJcfLgzzL79aDJQ"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    {
+                      "string": "tz1UXtawjBZGgd7EZ3XiY6TEu15YpMEjD4RS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
