@@ -97,12 +97,16 @@
     </div>
   </div>
 
-  <div id="withdraw-project">
-    <button onclick="withdrawProjectBtn()" class="btn btn-primary">Ping</button>
+  <div class="form-group"  id="withdraw-project">
+    <label for="project-withdraw">Project name:</label>
+    <input type="text" class="form-control" id="project-withdraw">
+    <div style="padding: 1rem">
+      <a href="#" onclick="withdrawProjectBtn()" class="btn btn-primary">Withdraw Project fees</a>
+    </div>
   </div>
 
   <div id="withdraw-elite">
-    <button onclick="withdrawEliteBtn()" class="btn btn-primary">Receive</button>
+    <button onclick="withdrawEliteBtn()" class="btn btn-primary">Withdraw Elite fees</button>
   </div>
   <br>
   <div>
@@ -137,17 +141,14 @@
         withdrawProject(
             getKeys(),
             document.getElementById('contract').innerHTML,
-            document.getElementById('dest').value,
-            document.getElementById('amount').value
+            document.getElementById('project-withdraw').value
         )
     }
 
     function withdrawEliteBtn() {
         withdrawElite(
             getKeys(),
-            document.getElementById('contract').innerHTML,
-            document.getElementById('dest').value,
-            document.getElementById('amount').value
+            document.getElementById('contract').innerHTML
         )
     }
 
@@ -184,9 +185,9 @@
 
         if (htmlText.startsWith('Play game')) {
             document.getElementById('form-play').style.display = 'block'
-        } else if (htmlText.startsWith('Receive property')) {
+        } else if (htmlText.startsWith('Receive project fees')) {
             document.getElementById('withdraw-project').style.display = 'block'
-        } else if (htmlText.startsWith('Receive property')) {
+        } else if (htmlText.startsWith('Receive Elite fees')) {
             document.getElementById('withdraw-elite').style.display = 'block'
         } else {
             document.getElementById('form-balance').style.display = 'block'

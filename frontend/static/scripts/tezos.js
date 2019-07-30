@@ -15,7 +15,7 @@ function play(keys, addr, tz, projectName, player) {
   let account = keys.pkh;
   let mtz = tz * 1000000;
   console.log(addr);
-  eztz.contract.send(addr, account, keys, tz, '(Left (Pair "' + projectName + '" "' + player + '"))', 100000, 400000, 60000)
+  eztz.contract.send(addr, account, keys, tz, '(Left (Pair "' + projectName + '" "' + player + '"))', 35000, 300000, 0)
     .then(function (res) {
       console.log(res);
       success(res)
@@ -26,11 +26,10 @@ function play(keys, addr, tz, projectName, player) {
     })
 }
 
-function withdrawProject(keys, addr, dest, tz) {
+function withdrawProject(keys, addr, project) {
   eztz.node.setProvider('https://alphanet-node.tzscan.io');
   let account = keys.pkh;
-  let mtz = tz * 1000000;
-  eztz.contract.send(addr, account, keys, 0, '(Left(Pair"' + projectName + '""tz1QLLbmqmrnfy7pBSzLCsY4RGSoB7t7Y72q"))', 100000, 400000, 60000)
+  eztz.contract.send(addr, account, keys, 0, '(Right (Right (Right (Left "' + project + '"))))', 70000, 600000, 200)
     .then(function (res) {
       success(res)
     })
@@ -39,11 +38,10 @@ function withdrawProject(keys, addr, dest, tz) {
     })
 }
 
-function withdrawElite(keys, addr, dest, tz) {
+function withdrawElite(keys, addr) {
   eztz.node.setProvider('https://alphanet-node.tzscan.io');
   let account = keys.pkh;
-  let mtz = tz * 1000000;
-  eztz.contract.send(addr, account, keys, 0, '(Right (Right (Left (Pair "' + dest + '" ' + mtz + '))))', 100000, 400000, 60000)
+  eztz.contract.send(addr, account, keys, 0, '(Right (Right (Left Unit)))', 60000, 500000, 200)
     .then(function (res) {
       success(res)
     })
