@@ -1,7 +1,3 @@
-# save_property_site
-
-> Frontend for tezos project
-
 ## Build Setup
 
 ``` bash
