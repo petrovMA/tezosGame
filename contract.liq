@@ -45,14 +45,14 @@ let%entry play ((proj_name: string), (player: key_hash)) storage = (* play game 
     | None -> let dcn = { (* if game with 'player' not found: Creating new Game! *)
         project = proj_name; (* set received 'proj_name' for new game *)
         rate_reward = check_amount (Current.amount()); (* calc reward rate (using 'check_amount' method) 
-*)
+                                                       *)
         votes = Map
       } in ([], storage.games <- Map.add player dcn storage.games) (* save created game into contract 
 storage *)
 
 (* judges(oracles) calls this method *)
 let%entry vote ((player: key_hash), (points: int)) storage = (* vote for game, 'points' - count of votes 
-*)
+                                                             *)
   let judge = Current.sender() in
   if not (Set.mem judge storage.judges) (* check: 'Is judge calls this method?' *)
   then failwith ("Access denied!!!")
@@ -66,8 +66,7 @@ let%entry vote ((player: key_hash), (points: int)) storage = (* vote for game, '
       | Some _ -> if Set.size storage.judges > Map.size game.votes (* check that all othet judges made 
 votes *)
           then failwith ("You already vote for this project! (You have to wait all judges)")
-          else
-          ()
+          else 
             let votes_sum = Map.fold (fun ((_, v), acc) -> acc + v) game.votes 0 in
             if votes_sum > 0 (* won *)
             then (* won *)
@@ -139,7 +138,8 @@ let%entry change_projects (new_projects: (string, key_hash) map) storage =
 
 
 let calc_reward storage game player =
-  let (won_amount, _) = match(reward_pool / game.rate_reward) with (* calc reward (by revard ratio) *)
+  let (won_amount, _) = match(Current.balance() / game.rate_reward) with (* calc reward (by revard ratio) 
+*)
     | Some tz -> tz
     | None -> failwith("division by 0 impossible") in
   let (fee, _) = match(won_amount / 25p) with (* calc fee (4% Elite Tezos) and (4% organisation chosen by 
@@ -154,12 +154,12 @@ the player) *)
       let storage = storage.projects <- Map.update game.project
             (Some {
                 deposit = proj_info.deposit + fee; (* updating project fees (adding fees from this game) 
-*)
+                                                   *)
                 wallet = proj_info.wallet
               })
             storage.projects in
       let storage = storage.games <- Map.remove player storage.games in (* removing this game from storage 
-*)
+                                                                        *)
       let storage = storage.elite_fees <- storage.elite_fees + fee in (* updating Elite fees (adding fees 
 from this game) *)
       (reward, storage) (* won *)
