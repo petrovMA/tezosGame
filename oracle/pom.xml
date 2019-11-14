@@ -18,7 +18,7 @@
         <log4j.version>1.2.17</log4j.version>
         <okhttp.version>4.0.1</okhttp.version>
         <typesafe.version>1.3.4</typesafe.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.9.10.1</jackson.version>
         <kotlin.version>1.3.41</kotlin.version>
     </properties>
     <dependencies>
